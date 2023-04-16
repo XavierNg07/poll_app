@@ -1,5 +1,4 @@
-from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import Question
 
 
@@ -15,17 +14,21 @@ def index(request):
     }
     # return HttpResponse(template.render(context, request))
 
-    # Since it is common idiom to load a template, fill a context
+    # It is a common idiom to load a template, fill a context
     # and return an HttpResponse object with the result of the rendered template
     # Django provides a shortcut
     return render(request, 'polls/index.html', context)
 
 
 def detail(request, question_id):
-    try:
-        question = Question.objects.get(pk=question_id)
-    except Question.DoesNotExist:
-        raise Http404('Question does not exist')
+    # try:
+    #     question = Question.objects.get(pk=question_id)
+    # except Question.DoesNotExist:
+    #     raise Http404('Question does not exist')
+
+    # It is a common idiom to use get() and raise Http404 if the object doesn't exist
+    # Django provides a shortcut
+    question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/detail.html', {'question': question})
 
 
